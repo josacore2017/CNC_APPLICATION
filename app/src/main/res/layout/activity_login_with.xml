@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="@color/grey_100"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Elige con que servicio deseas acceder a la aplicacion."
+        />
+
+    <Button
+        android:id="@+id/btn_login_with_google"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/google"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:elevation="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/googleg_standard_color_18"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="Acceder con Google"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_login_with_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:elevation="10dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="40dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="Acceder con Facebook"/>
+
+    <Button
+        android:id="@+id/btn_login_with_social"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/button_border"
+        android:drawableLeft="@drawable/logo_icon_color"
+        android:elevation="15dp"
+        android:paddingLeft="40dp"
+        android:paddingTop="20dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:text="Acceder con CNC Pro"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+</LinearLayout>

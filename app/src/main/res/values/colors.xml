@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#87DCD6</color>
+    <color name="colorPrimaryDark">#00BCD4</color>
+    <color name="colorAccent">#FFA726</color>
+
+    <color name="grey_100">#F5F5F5</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="facebook">#3b5998</color>
+    <color name="google">#FAFAFA</color>
+
+    <color name="graylight">#DCDCDC</color>
+    <color name="album_title">#4c4c4c</color>
+    <color name="viewBg">#f1f5f8</color>
+</resources>

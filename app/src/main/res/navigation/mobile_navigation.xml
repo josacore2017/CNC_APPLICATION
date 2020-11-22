@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_fragment_listing">
+
+    <fragment
+        android:id="@+id/nav_fragment_control"
+        android:name="com.josacore.cncpro.ui.control.ControlFragment"
+        android:label="@string/menu_control"
+        tools:layout="@layout/fragment_control" />
+
+    <fragment
+        android:id="@+id/nav_fragment_adding"
+        android:name="com.josacore.cncpro.ui.adding.AddingFragment"
+        android:label="@string/menu_adding"
+        tools:layout="@layout/fragment_adding" />
+
+    <fragment
+        android:id="@+id/nav_fragment_listing"
+        android:name="com.josacore.cncpro.ui.listing.ListingFragment"
+        android:label="@string/menu_listing"
+        tools:layout="@layout/fragment_listing" />
+</navigation>
