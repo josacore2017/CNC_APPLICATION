@@ -8,14 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +25,8 @@ import com.josacore.cncpro.MainActivity;
 import com.josacore.cncpro.R;
 import com.josacore.cncpro.classes.CNC;
 import com.josacore.cncpro.classes.Command;
+import com.josacore.cncpro.utils.PicassoCircleTransformation;
+import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -53,8 +52,16 @@ public class ControlFragment extends Fragment {
     private ImageView iv_control_arrow_bottom;
     private ImageView iv_control_arrow_right_bottom;
 
+    private ImageView iv_cardview_cnc_solo_state;
+    private ImageView iv_cardview_cnc_solo_photo;
+    private TextView tv_cardview_cnc_solo_name;
+    private TextView tv_cardview_cnc_solo_brand;
+    private ImageView iv_cardview_cnc_solo_list;
+
     private CNC cnc;
-    private String deviceId;
+    private String deviceId="";
+    private String userUsingphoto ="";
+    private String timeCNC="";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +85,11 @@ public class ControlFragment extends Fragment {
         iv_control_arrow_left_bottom = root.findViewById(R.id.iv_control_arrow_left_bottom);
         iv_control_arrow_bottom = root.findViewById(R.id.iv_control_arrow_bottom);
         iv_control_arrow_right_bottom = root.findViewById(R.id.iv_control_arrow_right_bottom);
+
+        iv_control_arrow_left_bottom.setEnabled(false);
+        iv_control_arrow_left_top.setEnabled(false);
+        iv_control_arrow_right_top.setEnabled(false);
+        iv_control_arrow_right_bottom.setEnabled(false);
 
         iv_control_arrow_left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,14 +122,12 @@ public class ControlFragment extends Fragment {
                 updateNewCommand("G90 G0 X0 Y0 Z0");
             }
         });
-        /*
-        tv_paid_property_name = root.findViewById(R.id.tv_paid_property_name);
-        tv_paid_property_address = root.findViewById(R.id.tv_paid_property_address);
-        tv_paid_property_state = root.findViewById(R.id.tv_paid_property_state);
-        tv_paid_property_size = root.findViewById(R.id.tv_paid_property_size);
-        tv_paid_property_price = root.findViewById(R.id.tv_paid_property_price);
-        ll_paid_property_recicler = root.findViewById(R.id.ll_paid_property_recicler);
-        */
+
+        iv_cardview_cnc_solo_state = root.findViewById(R.id.iv_cardview_cnc_solo_state);
+        iv_cardview_cnc_solo_photo = root.findViewById(R.id.iv_cardview_cnc_solo_photo);
+        tv_cardview_cnc_solo_name = root.findViewById(R.id.tv_cardview_cnc_solo_name);
+        tv_cardview_cnc_solo_brand = root.findViewById(R.id.tv_cardview_cnc_solo_brand);
+        iv_cardview_cnc_solo_list = root.findViewById(R.id.iv_cardview_cnc_solo_list);
 
         mDatabase.child("devices").child(deviceId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,43 +137,76 @@ public class ControlFragment extends Fragment {
                 String name = dataSnapshot.child("name").getValue(String.class);
                 String brand = dataSnapshot.child("brand").getValue(String.class);
                 String photo = dataSnapshot.child("photo").getValue(String.class);
+                String userUsing = dataSnapshot.child("userUsing").getValue(String.class);
+                String lastTime = dataSnapshot.child("lastTime").getValue(String.class);
+                final long time = dataSnapshot.child("time").getValue(Long.class);
                 boolean state = dataSnapshot.child("state").getValue(Boolean.class);
                 boolean connected = dataSnapshot.child("connected").getValue(Boolean.class);
-                //List<String> userAllowed = dataSnapshot.child("userAllowed").getValue(List.class);
+                List<String> userAllowed = dataSnapshot.child("userAllowed").getValue(List.class);
 
-                cnc = new CNC(id,uid,name,brand,photo,state,connected,null);
-                Log.e("XXXXXXXXXXX",id);
-                Log.e("XXXXXXXXXXX",uid);
-                Log.e("XXXXXXXXXXX",name);
-                Log.e("XXXXXXXXXXX",brand);
-                Log.e("XXXXXXXXXXX",photo);
-                Log.e("XXXXXXXXXXX",connected+"");
+                mDatabase.child("profiles").child(userUsing).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        userUsingphoto = dataSnapshot.child("photo").getValue(String.class);
+                        Log.e(TAG,"USER USING PHOTO: "+userUsingphoto);
+
+                        Date date = new Date();
+                        long tiempoActual = date.getTime();
+                        Log.e(TAG,"tiempo: "+(tiempoActual-time));
+                        Log.e(TAG,"VIENDO SI TIENE PHOTO EL USER USING");
+                        if((tiempoActual-time)>60000){
+                            if(!userUsingphoto.equals(""))
+                                Picasso.with(getActivity())
+                                        .load(R.drawable.ic_baseline_account_circle_24)
+                                        .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                        .transform(new PicassoCircleTransformation())
+                                        .fit()
+                                        .into(iv_cardview_cnc_solo_list);
+                            else
+                                iv_cardview_cnc_solo_list.setVisibility(View.INVISIBLE);
+                        }else{
+                            if(!userUsingphoto.equals(""))
+                                Picasso.with(getActivity())
+                                        .load(userUsingphoto)
+                                        .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                        .transform(new PicassoCircleTransformation())
+                                        .fit()
+                                        .into(iv_cardview_cnc_solo_list);
+                            else
+                                iv_cardview_cnc_solo_list.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
 
-                /*
-                tv_paid_property_name.setText(name);
-                tv_paid_property_address.setText(address);
-                tv_paid_property_state.setText(state);
-                tv_paid_property_size.setText(size+" m2");
-                tv_paid_property_price.setText(price+" "+currency);
+                cnc = new CNC(id,uid,name,brand,photo,userUsing,time, lastTime, state,connected,null);
 
-                if(state.equals("Enabled")) {
-                    ll_paid_property_recicler.setVisibility(View.INVISIBLE);
-                    btn_paids_make_contract.setVisibility(View.VISIBLE);
-                }else if(state.equals("Occupied")){
-                    ll_paid_property_recicler.setVisibility(View.VISIBLE);
-                    btn_paids_make_contract.setVisibility(View.INVISIBLE);
-                }else if(state.equals("Maintenance")){
-                    ll_paid_property_recicler.setVisibility(View.INVISIBLE);
-                    btn_paids_make_contract.setVisibility(View.INVISIBLE);
+                tv_cardview_cnc_solo_name.setText(name);
+                tv_cardview_cnc_solo_brand.setText(brand);
+
+
+                if(!photo.equals(""))
+                Picasso.with(getActivity())
+                        .load(photo)
+                        .placeholder(R.mipmap.ic_launcher2_foreground)
+                        .transform(new PicassoCircleTransformation())
+                        .fit()
+                        .into(iv_cardview_cnc_solo_photo);
+
+
+                if(connected == true) {
+                    iv_cardview_cnc_solo_state.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                }else{
+                    iv_cardview_cnc_solo_state.setBackgroundColor(getResources().getColor(R.color.stop));
                 }
-                */
-
-
 
                 String subtitle = "";
                 if(connected) subtitle = "CONECTADO"; else subtitle = "DESCONECTADO";
-                Log.e("XXXXXXXXXXX",subtitle);
                 ((MainActivity) getActivity()).setTitleSubtitle(cnc.getName(),subtitle);
             }
 
@@ -217,5 +260,18 @@ public class ControlFragment extends Fragment {
         childUpdates.put("/history/" + deviceId + "/" + key, commandValues);
 
         mDatabase.updateChildren(childUpdates);
+
+
+        updateCNCTimeUsed(tiempo);
+
     }
+    public void updateCNCTimeUsed(long tiempo){
+        cnc.setTime(tiempo);
+        cnc.setUserUsing(mAuth.getUid());
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/devices/" + deviceId + "/" , cnc);
+        mDatabase.updateChildren(childUpdates);
+    }
+
+
 }

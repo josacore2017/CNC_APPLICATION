@@ -118,6 +118,7 @@ public class CNCAdapter extends RecyclerView.Adapter<CNCViewHolder> {
             bundle.putString("deviceId", cncId);
             Navigation.findNavController(mActivity, R.id.nav_host_fragment).navigate(R.id.nav_fragment_control,bundle);
             mainActivity.setCheckMenuDrawer("control");
+            mainActivity.setCNCId(cncId);
         }
         mainActivity.enableFunctionsMenu();
     }

@@ -62,6 +62,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseFragm
 
     private String type_user;
     private String login_with = "";
+    private String cncId = "";
     private String profileId;
 
     @Override
@@ -166,6 +167,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseFragm
 
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        /*
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +176,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseFragm
                         .setAction("Action", null).show();
             }
         });
+        */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -195,24 +198,27 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseFragm
                 switch (menuItem.getItemId()) {
                     case R.id.nav_menu_drawer_listing:
                         action ="listing";
-                        if(isValidDestination(R.id.nav_fragment_listing))
+                        if(isValidDestination(R.id.nav_fragment_listing)) {
                             navController.navigate(R.id.nav_fragment_listing);
+                            setCheckMenuDrawer("listing");
+                        }
                         break;
                     case R.id.nav_menu_drawer_control:
-                        action ="control";
-                        //showFragment(new SaveListFragment());
-                        Toast.makeText(getApplicationContext(),"Funcion no siponible",
-                                Toast.LENGTH_SHORT).show();
-                        if(isValidDestination(R.id.nav_fragment_control))
-                            navController.navigate(R.id.nav_fragment_control);
+
+                        if(isValidDestination(R.id.nav_fragment_control)) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("deviceId", cncId);
+                            navController.navigate(R.id.nav_fragment_control,bundle);
+                            setCheckMenuDrawer("control");
+                        }
                         break;
                     case R.id.nav_menu_drawer_adding:
-                        action ="adding";
-                        //showFragment(new ShoppingListFragment());
-                        Toast.makeText(getApplicationContext(),"Funcion no siponible",
-                                Toast.LENGTH_SHORT).show();
-                        /*if(isValidDestination(R.id.nav_fragment_see_infected_areas))
-                            navController.navigate(R.id.nav_fragment_see_infected_areas);*/
+                        if(isValidDestination(R.id.nav_fragment_adding)) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("deviceId", cncId);
+                            navController.navigate(R.id.nav_fragment_adding,bundle);
+                            setCheckMenuDrawer("control");
+                        }
                         break;
                     case R.id.nav_menu_drawer_logout: {
                         action ="logout";
@@ -253,7 +259,9 @@ public class MainActivity extends BaseActivity implements BaseFragment.BaseFragm
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
+    public void setCNCId(String cncId){
+        this.cncId = cncId;
+    }
     public boolean isValidDestination(int destiantion){
         return destiantion != navController.getCurrentDestination().getId();
     }

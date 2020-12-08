@@ -22,6 +22,10 @@
                     android:id="@+id/nav_menu_drawer_adding"
                     android:icon="@drawable/ic_adding"
                     android:title="@string/menu_adding" />
+                <item
+                    android:id="@+id/nav_menu_drawer_setting"
+                    android:icon="@drawable/ic_settings"
+                    android:title="@string/nav_menu_drawer_setting" />
             </group>
         </menu>
     </item>
@@ -32,10 +36,6 @@
             android:id="@+id/nav_menu_drawer_about_us"
             android:icon="@drawable/ic_action_info"
             android:title="@string/nav_menu_drawer_about_us" />
-        <item
-            android:id="@+id/nav_menu_drawer_setting"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/nav_menu_drawer_setting" />
     </group>
 
     <group android:checkableBehavior="single">

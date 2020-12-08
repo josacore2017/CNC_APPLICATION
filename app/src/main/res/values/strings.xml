@@ -37,5 +37,6 @@
     <string name="nav_menu_drawer_setting">Configuracion</string>
     <string name="nav_menu_drawer_about_us">Acerca nosotros</string>
     <string name="facebook_app_id">123456</string>
+    <string name="select_file">seleccionar archivo</string>
 
 </resources>

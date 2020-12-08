@@ -14,6 +14,9 @@ public class CNC{
     private String name;
     private String brand;
     private String photo;
+    private String userUsing;
+    private long time;
+    private String lastTime;
     private boolean state;
     private boolean connected;
 
@@ -22,12 +25,15 @@ public class CNC{
     public CNC() {
     }
 
-    public CNC(String id, String uid, String name, String brand, String photo, boolean state, boolean connected, Map<String, Object> userAllowed) {
+    public CNC(String id, String uid, String name, String brand, String photo, String userUsing, long time, String lastTime, boolean state, boolean connected, Map<String, Object> userAllowed) {
         this.id = id;
         this.uid = uid;
         this.name = name;
         this.brand = brand;
         this.photo = photo;
+        this.userUsing = userUsing;
+        this.time = time;
+        this.lastTime=lastTime;
         this.state = state;
         this.connected = connected;
         this.userAllowed = userAllowed;
@@ -97,6 +103,30 @@ public class CNC{
         this.photo = photo;
     }
 
+    public String getUserUsing() {
+        return userUsing;
+    }
+
+    public void setUserUsing(String userUsing) {
+        this.userUsing = userUsing;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public String getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -105,6 +135,9 @@ public class CNC{
         result.put("name", name);
         result.put("brand", brand);
         result.put("photo", photo);
+        result.put("userUsing", userUsing);
+        result.put("time", time);
+        result.put("lastTime", lastTime);
         result.put("state", state);
         result.put("connected", connected);
         result.put("userAllowed", userAllowed);
